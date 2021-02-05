@@ -1,0 +1,16 @@
+{
+    "name": "people",
+    "dependencies": {
+        "@apollo/federation": "^0.21.0",
+        "apollo-server": "^2.19.2",
+        "gql": "^1.1.2",
+        "pg": "^8.5.1",
+        "pg-hstore": "^2.3.3",
+        "sequelize": "^6.5.0"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.12.13",
+        "@babel/core": "^7.12.13",
+        "sequelize-cli": "^6.2.0"
+    }
+}
