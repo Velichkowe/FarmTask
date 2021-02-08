@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "rootDir": ".",
+        "baseUrl": ".",
+        "target": "es2017",
+        "module": "es6",
+        "jsx": "react",
+        "allowUnreachableCode": false,
+        "strict": false,
+        "noImplicitAny": false,
+        "moduleResolution": "node",
+        
+    },
+    "include": [
+        "src/**/*"
+, "../farm-platform/src/apolloProvider"    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "**/node_modules/*"
+    ]
+}

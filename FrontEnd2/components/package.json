@@ -1,0 +1,55 @@
+{
+	"name": "components",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@apollo/client": "^3.3.8",
+		"@babel/core": "^7.12.13",
+		"@babel/preset-env": "^7.12.13",
+		"@babel/preset-react": "^7.12.13",
+		"@reach/router": "^1.3.4",
+		"@testing-library/jest-dom": "^5.11.9",
+		"@testing-library/react": "^11.2.5",
+		"@testing-library/user-event": "^12.6.3",
+		"babel-loader": "^8.2.2",
+		"bootstrap": "^4.6.0",
+		"graphql": "^15.5.0",
+		"html-webpack-plugin": "^5.0.0",
+		"nodemon": "^2.0.7",
+		"react": "^17.0.1",
+		"react-bootstrap": "^1.4.3",
+		"react-dom": "^17.0.1",
+		"react-router-dom": "^5.2.0",
+		"react-scripts": "4.0.2",
+		"web-vitals": "^1.1.0",
+		"webpack": "^5.21.1",
+		"webpack-cli": "^4.5.0"
+	},
+	"scripts": {
+		"start": "webpack serve",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"css-loader": "^5.0.1"
+	}
+}

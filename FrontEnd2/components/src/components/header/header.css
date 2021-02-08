@@ -1,0 +1,43 @@
+.header {
+    margin: auto;
+    background: #727272;
+}
+
+.header__inner {
+    margin: auto;
+    padding: 0;
+}
+
+nav {
+    height: 60px;
+    width: 50%;
+}
+
+.nav__options {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.nav__admin--right {
+    justify-content: flex-end;
+}
+
+.nav__options li {
+    margin-right: 15px;
+}
+
+.nav-bar {
+    display: flex;
+}
+
+.nav__options li {
+    list-style: none;
+}
+
+.nav__options a {
+    color: #000;
+    cursor: pointer;
+}
