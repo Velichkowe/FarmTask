@@ -1,0 +1,28 @@
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "targets": {
+                    "node": "current"
+                }
+            }
+        ]
+    ],
+    "plugins": [
+        [
+            "module-resolver",
+            {
+                "root": ["./src"],
+                "alias": {
+                    "#server": "./src/server",
+                    "#graphql": "./src/graphql",
+                    "#models": "./src/models",
+                    "#service": "./src/service"
+                }
+            }
+        ],
+        ["@babel/plugin-proposal-class-properties"],
+        ["inline-json-import", {}]
+    ]
+}
