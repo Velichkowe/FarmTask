@@ -25,7 +25,7 @@ const gateway = new ApolloGateway({
         { name: 'farm', url: 'http://localhost:4002/graphql' },
         { name: 'location', url: 'http://localhost:4003/graphql' }
     ],
-    buildService({ name, url }) {
+    buildService({ url }) {
         return new RemoteGraphQLDataSource({
             url,
             willSendRequest({ request, context }) {

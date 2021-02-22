@@ -18,6 +18,26 @@ const RoleResolvers = {
             } catch (err) {
                 console.log(err);
             }
+        },
+
+        getRoleById: async (
+            _,
+            { id },
+            {
+                dataSources: {
+                    sequelize: {
+                        models: { Role }
+                    }
+                }
+            }
+        ) => {
+            try {
+                const role = await Role.findByPk(id);
+
+                return role;
+            } catch (err) {
+                console.log(err);
+            }
         }
     },
 
@@ -38,6 +58,28 @@ const RoleResolvers = {
                     roleId: role.id
                 }
             });
+        }
+    },
+
+    Employee: {
+        role: async (
+            employee,
+            __,
+            {
+                dataSources: {
+                    sequelize: {
+                        models: { Role }
+                    }
+                }
+            }
+        ) => {
+            try {
+                const role = await Role.findByPk(employee.roleId);
+
+                return role;
+            } catch (err) {
+                console.log(err);
+            }
         }
     }
 };

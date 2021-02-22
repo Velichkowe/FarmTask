@@ -1,4 +1,4 @@
-import { v4 as uuid } from 'uuid';
+// import { v4 as uuid } from 'uuid';
 import jwt from 'jsonwebtoken';
 import { checkFields, checkErrors, checkPasswords, validateEmail } from '../helpers/fieldValidation/fieldValidation';
 const bcrypt = require('bcrypt');
@@ -47,13 +47,21 @@ const UserResolvers = {
             }
         },
 
-        getLoggedUser: async (parent, args, { dataSources, user }) => {
+        getLoggedUser: async (_, __, { dataSources, user }) => {
             try {
-                const loggedUser = await dataSources.sequelize.models.User.findOne({
+                let loggedUser = await dataSources.sequelize.models.User.findOne({
                     where: {
-                        userId: user.sub
+                        id: user.sub
                     }
                 });
+
+                if (!loggedUser) {
+                    loggedUser = await dataSources.sequelize.models.Employee.findOne({
+                        where: {
+                            id: user.sub
+                        }
+                    });
+                }
 
                 return loggedUser;
             } catch (err) {
@@ -63,10 +71,9 @@ const UserResolvers = {
     },
 
     Mutation: {
-        login: async (parent, args, { dataSources: { sequelize } }) => {
+        login: async (_, args, { dataSources: { sequelize } }) => {
             let { email, password } = args;
             let errors = {};
-            console.log(password);
 
             try {
                 errors = checkFields(args);
@@ -84,34 +91,58 @@ const UserResolvers = {
                 });
 
                 if (!user) {
-                    throw (errors.email = 'No such user!');
+                    const employee = await sequelize.models.Employee.findOne({
+                        where: {
+                            email
+                        }
+                    });
+
+                    if (!employee) {
+                        throw (errors.email = 'No such user!');
+                    }
+
+                    let result = bcrypt.compareSync(password, employee.password);
+
+                    if (!result) {
+                        throw (errors.password = 'Wrong password!');
+                    }
+
+                    const token = jwt.sign({ 'https://awesomeapi.com/graphql': { roles: employee.roleId } }, 'f1BtnWgD3VKY', {
+                        algorithm: 'HS256',
+                        subject: JSON.stringify(employee.id),
+                        expiresIn: '1d'
+                    });
+
+                    return { token, errors: null };
+                } else {
+                    console.log('user');
+                    if (!user.isApproved) {
+                        throw (errors.notApproved = 'Your account is not approved !');
+                    }
+
+                    let result = bcrypt.compareSync(password, user.password);
+
+                    if (!result) {
+                        throw (errors.password = 'Wrong password!');
+                    }
+
+                    const token = jwt.sign({ 'https://awesomeapi.com/graphql': { roles: user.roleId } }, 'f1BtnWgD3VKY', {
+                        algorithm: 'HS256',
+                        subject: JSON.stringify(user.id),
+                        expiresIn: '1d'
+                    });
+
+                    return { token, errors: null };
                 }
-
-                if (!user.isApproved) {
-                    throw (errors.notApproved = 'Your account is not approved !');
-                }
-
-                let result = bcrypt.compareSync(password, user.password);
-
-                if (!result) {
-                    throw (errors.password = 'Wrong password!');
-                }
-
-                const token = jwt.sign({ 'https://awesomeapi.com/graphql': { roles: user.roleId } }, 'f1BtnWgD3VKY', {
-                    algorithm: 'HS256',
-                    subject: user.userId,
-                    expiresIn: '1d'
-                });
-
-                return { token, errors: null };
             } catch (err) {
+                console.log('--------', err);
                 const token = '';
 
                 return { token, errors: JSON.stringify(errors) };
             }
         },
 
-        register: async (parent, args, { dataSources }) => {
+        register: async (_, args, { dataSources }) => {
             const { firstName, lastName, email, password, confirmPassword } = args;
             let errors = {};
             const salt = bcrypt.genSaltSync(SALT_ROUNDS);
@@ -140,7 +171,6 @@ const UserResolvers = {
                 }
 
                 const user = await dataSources.sequelize.models.User.create({
-                    userId: uuid(),
                     firstName,
                     lastName,
                     email,
@@ -168,12 +198,12 @@ const UserResolvers = {
                 }
             }
         ) => {
-            const { userId, isApproved } = args;
+            const { id, isApproved } = args;
 
             try {
                 const user = await User.findOne({
                     where: {
-                        userId
+                        id
                     }
                 });
 
@@ -201,7 +231,11 @@ const UserResolvers = {
                 }
             }
         ) => {
-            return await Role.findByPk(user.roleId);
+            try {
+                return await Role.findByPk(user.roleId);
+            } catch (err) {
+                console.log(err);
+            }
         }
     },
 

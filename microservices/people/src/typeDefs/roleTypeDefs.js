@@ -9,6 +9,7 @@ const roleTypeDefinitions = gql`
 
     extend type Query {
         role: Role!
+        getRoleById(id: ID!): Role
         roles: [Role]!
     }
 `;

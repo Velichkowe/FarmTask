@@ -11,18 +11,8 @@ const userTypeDefinitions = gql`
         employees: [Employee]!
         role: Role!
         isApproved: Int!
-        userId: String!
+        # userId: String!
     }
-
-    # type Employee @key(fields: "id") {
-    #     id: ID!
-    #     firstName: String!
-    #     lastName: String!
-    #     address: String!
-    #     number: String!
-    #     salary: Int!
-    #     user: User!
-    # }
 
     type LoginPayload {
         token: String!
@@ -32,6 +22,15 @@ const userTypeDefinitions = gql`
     type RegisterPayload {
         user: User
         errors: String
+    }
+
+    type LoggedUserPayload {
+        id: ID!
+        firstName: String
+        lastName: String
+        email: String
+        roleId: Int
+        userId: Int
     }
 
     extend type UserRegion @key(fields: "userId") {
@@ -47,13 +46,13 @@ const userTypeDefinitions = gql`
     extend type Query {
         user(id: ID!): User!
         users: [User]!
-        getLoggedUser: User
+        getLoggedUser: LoggedUserPayload
     }
 
     extend type Mutation {
         register(firstName: String!, lastName: String!, email: String!, password: String!, confirmPassword: String!): RegisterPayload
         login(email: String!, password: String!): LoginPayload
-        updateUser(userId: String!, isApproved: Int!): User
+        updateUser(id: ID!, isApproved: Int!): User
     }
 `;
 

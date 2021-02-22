@@ -13,7 +13,8 @@ const permissions = shield({
     Mutation: {
         register: allow,
         login: allow,
-        updateUser: isAuthenticated
+        updateUser: isAuthenticated,
+        addEmployee: allow
     },
     // Farm: {
     //     user: isAuthenticated

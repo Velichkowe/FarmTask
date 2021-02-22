@@ -61,11 +61,11 @@ const machineResolvers = {
                 name,
                 machineTypeId,
                 farmId,
-                grainTankCap,
+                grainTankCapacity,
                 maxHp,
                 maxCutWidth,
                 unloadingSpeed,
-                maxLiftCap,
+                maxLiftCapacity,
                 transmission,
                 engine,
                 pickUpWidth,
@@ -79,11 +79,11 @@ const machineResolvers = {
                     name,
                     machineTypeId,
                     farmId,
-                    grainTankCap,
+                    grainTankCapacity,
                     maxHp,
                     maxCutWidth,
                     unloadingSpeed,
-                    maxLiftCap,
+                    maxLiftCapacity,
                     transmission,
                     engine,
                     pickUpWidth,
@@ -93,6 +93,63 @@ const machineResolvers = {
                 return machine;
             } catch (err) {
                 console.log(err);
+            }
+        },
+
+        updateMachine: async (
+            _,
+            args,
+            {
+                dataSources: {
+                    sequelize: {
+                        models: { Machine }
+                    }
+                }
+            }
+        ) => {
+            const {
+                id,
+                name,
+                machineTypeId,
+                farmId,
+                grainTankCapacity,
+                maxHp,
+                maxCutWidth,
+                unloadingSpeed,
+                maxLiftCapacity,
+                transmission,
+                engine,
+                pickUpWidth,
+                plungerSpeed
+            } = args;
+
+            try {
+                Machine.destroy({
+                    where: {
+                        id
+                    }
+                });
+
+                const machine = await Machine.create({
+                    name,
+                    machineTypeId,
+                    farmId,
+                    grainTankCapacity,
+                    maxHp,
+                    maxCutWidth,
+                    unloadingSpeed,
+                    maxLiftCapacity,
+                    transmission,
+                    engine,
+                    pickUpWidth,
+                    plungerSpeed
+                });
+
+                return machine;
+            } catch (err) {
+                console.log(err);
+
+                return null;
             }
         },
 

@@ -37,6 +37,7 @@ const farmTypeDefinitions = gql`
     extend type Mutation {
         createNewFarm(name: String!, userId: Int!, countryId: Int!): Farm
         deleteFarmById(id: Int!): Farm
+        updateFarm(id: Int!, name: String!): Farm
     }
 `;
 

@@ -77,6 +77,34 @@ const fieldResolvers = {
             }
         },
 
+        updateField: async (
+            _,
+            args,
+            {
+                dataSources: {
+                    sequelize: {
+                        models: { Field }
+                    }
+                }
+            }
+        ) => {
+            const { id, name, cropId, soilId } = args;
+
+            try {
+                const field = await Field.findByPk(id);
+                field.name = name;
+                field.cropId = cropId;
+                field.soilId = soilId;
+                await field.save();
+
+                return field;
+            } catch (err) {
+                console.log(err);
+
+                return null;
+            }
+        },
+
         deleteFieldById: async (
             _,
             { id },

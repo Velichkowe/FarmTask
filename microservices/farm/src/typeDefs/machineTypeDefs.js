@@ -27,17 +27,32 @@ const machineTypeDefinitions = gql`
             name: String!
             machineTypeId: Int!
             farmId: Int!
-            grainTankCap: Int
+            grainTankCapacity: Int
             maxHp: Int
             maxCutWidth: Float
             unloadingSpeed: Int
-            maxLiftCap: Int
+            maxLiftCapacity: Int
             transmission: String
             engine: String
             pickUpWidth: Int
             plungerSpeed: Int
         ): Machine
         deleteMachine(id: Int!): Machine
+        updateMachine(
+            id: ID!
+            name: String!
+            machineTypeId: Int!
+            farmId: Int!
+            grainTankCapacity: Int
+            maxHp: Int
+            maxCutWidth: Float
+            unloadingSpeed: Int
+            maxLiftCapacity: Int
+            transmission: String
+            engine: String
+            pickUpWidth: Int
+            plungerSpeed: Int
+        ): Machine
     }
 `;
 

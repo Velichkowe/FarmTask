@@ -101,6 +101,27 @@ const farmResolvers = {
             }
         },
 
+        updateFarm: async (
+            _,
+            { id, name },
+            {
+                dataSources: {
+                    sequelize: {
+                        models: { Farm }
+                    }
+                }
+            }
+        ) => {
+            try {
+                const farm = await Farm.findByPk(id);
+
+                farm.name = name;
+                farm.save();
+            } catch (err) {
+                console.log(err);
+            }
+        },
+
         deleteFarmById: async (
             _,
             { id },
