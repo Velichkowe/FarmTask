@@ -7,16 +7,18 @@ import { DELETE_FIELD_BY_ID } from '../../constants/gqlFieldConstants';
 import { loadToastError, loadToastSuccess } from '../../loadToast/loadToast';
 import FieldRows from './fieldRows';
 
+const NO_RIGHTS_ERROR = "You don't have right to use this option !";
+
 const FIELD_DEL_SUCCESS = 'Field deleted successfully !';
 const FIELD_DEL_ERROR = 'There was an error deleting that field !';
 
 const ShowFields = (props) => {
-    const { location: { state }} = props;
+    const { location: { state: { selectedFarm, user } }} = props;
     const [fields, setFields] = useState([]);
 
     useQuery(GET_ALL_FIELDS_BY_FARM, {
         variables: {
-            farmId: parseInt(state.id)
+            farmId: parseInt(selectedFarm.id)
         },
         onCompleted(data) {
             setFields(data.fieldsByFarmId);
@@ -35,6 +37,12 @@ const ShowFields = (props) => {
     })
 
     const handleDeleteRow = (elem) => {
+        if(user.roleName === 'employee') {
+            loadToastError(NO_RIGHTS_ERROR);
+
+            return;
+        }
+
         deleteField({
             variables: {
                 id: parseInt(elem.id)
@@ -60,13 +68,19 @@ const ShowFields = (props) => {
                                     <th>Crop</th>
                                     <th>Soil</th>
                                     <th>Delete</th>
+                                    <th>Edit</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 {fields.map((elem, idx) => {
                                     return (
-                                        <FieldRows key={idx} elem={elem} handleDeleteRow={handleDeleteRow} />
+                                        <FieldRows 
+                                            key={idx} 
+                                            elem={elem} 
+                                            handleDeleteRow={handleDeleteRow} 
+                                            user={user}
+                                        />
                                     )
                                 })}
                             </tbody>

@@ -9,8 +9,8 @@ export const GET_ALL_FIELDS_BY_FARM = gql`
         ) {
             id
             name
-            crop { name }
-            soil { name}
+            crop { id name }
+            soil { id name}
         }
     }
 `;
@@ -37,6 +37,24 @@ export const CREATE_NEW_FIELD = gql`
         addField(
             name: $name
             farmId: $farmId
+            cropId: $cropId
+            soilId: $soilId
+        ) {
+            id name
+        }
+    }
+`;
+
+export const UPDATE_FIELD = gql`
+    mutation updateField(
+        $id: Int!
+        $name: String!
+        $cropId: Int!
+        $soilId: Int!
+    ) {
+        updateField(
+            id: $id
+            name: $name
             cropId: $cropId
             soilId: $soilId
         ) {

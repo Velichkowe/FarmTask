@@ -6,6 +6,7 @@ import { gql, useLazyQuery, useQuery } from '@apollo/client';
 import FarmRows from '../../fields/farmRows/farmRows';
 import ShowMachines from '../machines/showMachines';
 import CreateMachine from '../createMachine/createMachine';
+import UpdateMachine from '../updateMachine/updateMachine';
 import MachineActions from '../machineActions/machineActions';
 import '../../fields/showFarmFields/showFarmFields.css';
 import './showFarmMachines.css';
@@ -13,9 +14,11 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { GET_LOGGED_USER } from '../../constants/gqlUserConstants';
 import { GET_FARMS_BY_USER_ID } from '../../constants/gqlFarmConstants';
+import { GET_ROLE_BY_ID } from '../../constants/gqlRoleConstants';
 
 const ShowFarmMachines = () => {
     const [farms, setFarms] = useState([]);
+    const [user, setUser] = useState();
     const [selectedFarm, setSelectedFarm] = useState({
         id: -1,
         name: ''
@@ -27,12 +30,35 @@ const ShowFarmMachines = () => {
         },
         fetchPolicy: "network-only"
     });
+
+    const [getRoleById] = useLazyQuery(GET_ROLE_BY_ID, {
+        fetchPolicy: 'network-only',
+        onCompleted(data) {
+            setUser({...user, roleName: data.getRoleById.name});
+            let userId;
+
+            if(data.getRoleById.name === "employee") {
+                userId = parseInt(user.userId);
+            }
+            else {
+                userId = parseInt(user.id);
+            }
+
+            getFarmsByUserId({
+                variables: {
+                    userId
+                }
+            });
+        }
+    });
     
     useQuery(GET_LOGGED_USER, {
         onCompleted(data) {
-            getFarmsByUserId({
+            setUser(data.getLoggedUser);
+
+            getRoleById({
                 variables: {
-                    userId: parseInt(data.getLoggedUser.id)
+                    id: data.getLoggedUser.roleId
                 }
             });
         },
@@ -85,6 +111,7 @@ const ShowFarmMachines = () => {
             <Switch>
                 <Route exact path="/machines" component={ShowMachines} />
                 <Route exact path="/createMachine" component={CreateMachine} />
+                <Route exact path="/updateMachine" component={UpdateMachine} />
             </Switch>
         </BrowserRouter>
     )

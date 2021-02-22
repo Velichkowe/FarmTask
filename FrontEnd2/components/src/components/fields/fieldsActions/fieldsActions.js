@@ -6,7 +6,7 @@ import { Button } from 'react-bootstrap';
 import { loadToastError } from '../../loadToast/loadToast';
 const NO_FARM_SELECTED = 'Select a farm first !'; 
 
-const FieldActions = ({ selectedFarm }) => {
+const FieldActions = ({ selectedFarm, user }) => {
     const history = useHistory();
 
     const handleCreateFieldClick = () => {
@@ -26,7 +26,7 @@ const FieldActions = ({ selectedFarm }) => {
             return;
         }
 
-        history.push('/fields', selectedFarm)
+        history.push('/fields', { selectedFarm, user })
     }
 
     return (
@@ -34,18 +34,20 @@ const FieldActions = ({ selectedFarm }) => {
             <Button
                 className="field__action-btn"
                 variant="primary"
-                onClick={() => handleCreateFieldClick()}
-            >
-                Create Field
-            </Button>
-            
-            <Button
-                className="field__action-btn"
-                variant="primary"
                 onClick={() => handleShowFieldsClick()}
             >
                 Show Fields
             </Button>
+            
+            {user.roleName !== 'employee' ? (
+                <Button
+                    className="field__action-btn"
+                    variant="primary"
+                    onClick={() => handleCreateFieldClick()}
+                >
+                    Create Field
+                </Button>
+            ) : null }
         </>
     )
 }

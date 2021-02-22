@@ -18,9 +18,8 @@ const ShowMachines = (props) => {
             farmId: parseInt(state.id)
         },
         onCompleted(data) {
-            console.log(data.machinesByFarmId);
-
             setMachines(data.machinesByFarmId)
+            console.log(data.machinesByFarmId)
         }
         ,fetchPolicy: "network-only"
     });
@@ -44,7 +43,7 @@ const ShowMachines = (props) => {
     return (
         <Col className="machines__table">
             <div className="field__component">
-                <h1>Show Machines</h1>
+                <h1>All Machines</h1>
 
                 {machines.length === 0 ?
                     <p>There are no Machines in the selected farm !</p>
@@ -65,6 +64,7 @@ const ShowMachines = (props) => {
                                     <th>Pick Up Width</th>
                                     <th>Plunger Speed</th>
                                     <th>Delete</th>
+                                    <th>Edit</th>
                                 </tr>
                             </thead>
 

@@ -62,7 +62,8 @@ module.exports = {
 				"./showUsers": "./src/components/users/showAllUsers/showAllUsers",
                 "./showFarms": "./src/components/farms/showFarms/showFarms",
                 "./showFarmFields": "./src/components/fields/showFarmFields/showFarmFields",
-                "./showFarmMachines": "./src/components/machines/showFarmMachines/showFarmMachines"
+                "./showFarmMachines": "./src/components/machines/showFarmMachines/showFarmMachines",
+                "./showEmployees": "./src/components/employees/showEmployees/showEmployees"
                 // "./loginPage": "./src/components/loginPage/loginPage",
                 // "./registerPage": "./src/components/registerPage/registerPage",
 			},

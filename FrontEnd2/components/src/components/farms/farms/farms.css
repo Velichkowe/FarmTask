@@ -15,7 +15,7 @@
     padding: 0 8px 2px 8px;
 }
 
-.btn__delete-item {
+.btn__item {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -24,6 +24,11 @@
 .btn__delete:hover {
     cursor: pointer;
     color: #fa5c5c;
+}
+
+.btn__update:hover {
+    cursor: pointer;
+    color: #5ccdfa;
 }
 
 .component_head h2 {

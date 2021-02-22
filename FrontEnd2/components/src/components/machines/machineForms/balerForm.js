@@ -4,10 +4,14 @@ import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { loadToastError, loadToastSuccess } from '../../loadToast/loadToast';
 import { CREATE_NEW_MACHINE_BALER } from '../../constants/gqlMachineConstants';
+import { UPDATE_MACHINE_BALER } from '../../constants/gqlMachineConstants';
 const ADD_NEW_MACHINE_ERROR = 'There was an error adding this machine !';
 const ADD_NEW_MACHINE_SUCCESS = 'Machine is added successfully !';
+const UPDATE_MACHINE_ERROR = 'There was an error updating this machine !';
+const UPDATE_MACHINE_SUCCESS = 'Machine is updated successfully !';
 
-const BalerForm = ( {selectedMachineType, selectedFarm} ) => {
+const BalerForm = (props) => {
+    const { selectedMachineType, selectedFarm, machine } = props;
     const [addNewMachine] = useMutation(CREATE_NEW_MACHINE_BALER, {
         onCompleted(data) {
             if(!data) {
@@ -18,10 +22,20 @@ const BalerForm = ( {selectedMachineType, selectedFarm} ) => {
         }
     });
 
-    const [name, setName] = useState('');
-    const [pickUpWidth, setPickUpWidth] = useState('');
-    const [maxHp, setMaxHp] = useState('');
-    const [plungerSpeed, setPlungerSpeed] = useState('');
+    const [updateMachine] = useMutation(UPDATE_MACHINE_BALER, {
+        onCompleted(data) {
+            if(!data.updateMachine) {
+                loadToastError(UPDATE_MACHINE_ERROR);
+            } else {
+                loadToastSuccess(UPDATE_MACHINE_SUCCESS);
+            }
+        }
+    });
+
+    const [name, setName] = useState(machine.name ? machine.name : '');
+    const [pickUpWidth, setPickUpWidth] = useState(machine.pickUpWidth ? machine.pickUpWidth : '');
+    const [maxHp, setMaxHp] = useState(machine.maxHp ? machine.maxHp : '');
+    const [plungerSpeed, setPlungerSpeed] = useState(machine.plungerSpeed ? machine.plungerSpeed : '');
     const [errors, setErrors] = useState({});
 
     const handleSaveClick = () => {
@@ -47,7 +61,7 @@ const BalerForm = ( {selectedMachineType, selectedFarm} ) => {
         })
     }
 
-    const checkFields = (fieldErrors) => {
+    const checkEmptyFields = (fieldErrors) => {
         if(!name) {
             fieldErrors.name = "Please add name"
         }
@@ -63,6 +77,30 @@ const BalerForm = ( {selectedMachineType, selectedFarm} ) => {
         if(!plungerSpeed) {
             fieldErrors.plungerSpeed = "Please add Plunger speed"
         }
+    }
+
+    const handleUpdateClick = () => {
+        let fieldErrors = {};
+        
+        checkEmptyFields(fieldErrors);
+
+        if(Object.keys(fieldErrors).length > 0) {
+            setErrors(fieldErrors);
+
+            return;
+        }
+
+        updateMachine({
+            variables: {
+                id: parseInt(machine.id),
+                name,
+                pickUpWidth: parseInt(pickUpWidth),
+                maxHp: parseInt(maxHp),
+                plungerSpeed: parseFloat(plungerSpeed),
+                machineTypeId: parseInt(selectedMachineType.id),
+                farmId: parseInt(machine.farmId)
+            }
+        });
     }
 
     return (
@@ -103,7 +141,11 @@ const BalerForm = ( {selectedMachineType, selectedFarm} ) => {
 
             <Form.Group>
                 <div>
-                    <Button variant="primary" onClick={() => handleSaveClick()}>Save Machine</Button>
+                    {!machine ?
+                        <Button variant="primary" onClick={() => handleSaveClick()}>Save Machine</Button>
+                        :
+                        <Button variant="primary" onClick={() => handleUpdateClick()}>Update Machine</Button>
+                    }
                 </div>
             </Form.Group>
         </>

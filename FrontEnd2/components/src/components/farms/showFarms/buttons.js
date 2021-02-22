@@ -46,7 +46,11 @@ const Buttons = ({ selectedRegion, selectedCountry, user }) => {
 
         return true;
     }
-
+    
+    if(!user) {
+        return <>Loading</>
+    }
+    
     return (
         <>
             <div>
@@ -58,12 +62,14 @@ const Buttons = ({ selectedRegion, selectedCountry, user }) => {
                     Search Farms
                 </Button>
 
-                <Button 
-                    variant="primary" 
-                    onClick={() => handleCreateFarmClick()}
-                >
-                    Create Farm
-                </Button>
+                {user.roleName !== "employee" ? (
+                    <Button 
+                        variant="primary" 
+                        onClick={() => handleCreateFarmClick()}
+                    >
+                        Create Farm
+                    </Button>
+                ) : null }
             </div>
         </>
     )

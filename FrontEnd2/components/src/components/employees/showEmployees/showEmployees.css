@@ -1,0 +1,34 @@
+.show__employees {
+    display: block;
+}
+
+.field__component {
+    margin-top: 20px;
+    padding: 10px 15px;
+    box-shadow: 4px 3px 11px -4px #000;
+}
+
+.margin-top {
+    margin-top: 20px;
+}
+
+.table__employees {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.table__row:hover {
+    cursor: pointer;
+}
+
+.action-btn {
+    margin-right: 15px;
+}
+
+.field__component--margin {
+    margin-bottom: 20px;
+}
+
+.employee__info--btn {
+    margin-right: 15px;
+}

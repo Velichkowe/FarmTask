@@ -5,6 +5,7 @@ import FarmRows from '../farmRows/farmRows';
 import ShowFields from '../fields/showFields';
 import FieldActions from '../fieldsActions/fieldsActions';
 import CreateField from '../createField/createField';
+import UpdateField from '../updateField/updateField';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { Col, Table } from 'react-bootstrap';
@@ -13,7 +14,7 @@ import './showFarmFields.css'
 
 import { GET_LOGGED_USER } from '../../constants/gqlUserConstants';
 import { GET_FARMS_BY_USER_ID } from '../../constants/gqlFarmConstants';
-
+import { GET_ROLE_BY_ID } from '../../constants/gqlRoleConstants';
 
 const ShowFarmFields = (props) => {
     const [user, setUser] = useState();
@@ -30,15 +31,36 @@ const ShowFarmFields = (props) => {
         fetchPolicy: "network-only"
     });
     
+    const [getRoleById] = useLazyQuery(GET_ROLE_BY_ID, {
+        fetchPolicy: 'network-only',
+        onCompleted(data) {
+            setUser({...user, roleName: data.getRoleById.name});
+            let userId;
+
+            if(data.getRoleById.name === "employee") {
+                userId = parseInt(user.userId);
+            }
+            else {
+                userId = parseInt(user.id);
+            }
+
+            getFarmsByUserId({
+                variables: {
+                    userId
+                }
+            });
+        }
+    });
+    
     useQuery(GET_LOGGED_USER, {
         onCompleted(data) {
             setUser(data.getLoggedUser);
 
-            getFarmsByUserId({
+            getRoleById({
                 variables: {
-                    userId: parseInt(data.getLoggedUser.id)
+                    id: data.getLoggedUser.roleId
                 }
-            });
+            })
         },
         fetchPolicy: "network-only"
     });
@@ -85,6 +107,7 @@ const ShowFarmFields = (props) => {
 
                         <FieldActions 
                             selectedFarm={selectedFarm}
+                            user={user}
                         />
                     </div>
                 </Col>
@@ -92,6 +115,7 @@ const ShowFarmFields = (props) => {
                 <Switch>
                     <Route exact path="/fields" component={ShowFields} />
                     <Route exact path="/createField" component={CreateField} />
+                    <Route exact path="/updateField" component={UpdateField} />
                 </Switch>
             </BrowserRouter>
         </>

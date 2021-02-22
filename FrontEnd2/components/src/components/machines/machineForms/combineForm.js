@@ -4,13 +4,18 @@ import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { loadToastError, loadToastSuccess } from '../../loadToast/loadToast';
 import { CREATE_NEW_MACHINE_COMBINE } from '../../constants/gqlMachineConstants';
+import { UPDATE_MACHINE_COMBINE } from '../../constants/gqlMachineConstants';
 const ADD_NEW_MACHINE_ERROR = 'There was an error adding this machine !';
 const ADD_NEW_MACHINE_SUCCESS = 'Machine is added successfully !';
+const UPDATE_MACHINE_ERROR = 'There was an error updating this machine !';
+const UPDATE_MACHINE_SUCCESS = 'Machine is updated successfully !';
 
-const CombineForm = ( {selectedMachineType, selectedFarm} ) => {
+const CombineForm = (props) => {
+    const { selectedMachineType, selectedFarm, machine } = props;
+
     const [addNewMachine] = useMutation(CREATE_NEW_MACHINE_COMBINE, {
         onCompleted(data) {
-            if(!data) {
+            if(!data.addMachine) {
                 loadToastError(ADD_NEW_MACHINE_ERROR);
             } else {
                 loadToastSuccess(ADD_NEW_MACHINE_SUCCESS);
@@ -18,11 +23,21 @@ const CombineForm = ( {selectedMachineType, selectedFarm} ) => {
         }
     });
 
-    const [name, setName] = useState('');
-    const [grainTankCap, setGrainTankCap] = useState('');
-    const [maxHp, setMaxHp] = useState('');
-    const [maxCutWidth, setMaxCutWidth] = useState('');
-    const [unloadingSpeed, setUnloadingSpeed] = useState('');
+    const [updateMachine] = useMutation(UPDATE_MACHINE_COMBINE, {
+        onCompleted(data) {
+            if(!data.updateMachine) {
+                loadToastError(UPDATE_MACHINE_ERROR);
+            } else {
+                loadToastSuccess(UPDATE_MACHINE_SUCCESS);
+            }
+        }
+    });
+
+    const [name, setName] = useState(machine ? machine.name : '');
+    const [grainTankCapacity, setGrainTankCap] = useState(machine.grainTankCapacity ? machine.grainTankCapacity : '');
+    const [maxHp, setMaxHp] = useState(machine.maxHp ? machine.maxHp : '');
+    const [maxCutWidth, setMaxCutWidth] = useState(machine.maxCutWidth ? machine.maxCutWidth : '');
+    const [unloadingSpeed, setUnloadingSpeed] = useState(machine.unloadingSpeed ? machine.unloadingSpeed: '');
     const [errors, setErrors] = useState({});
 
     const handleSaveClick = () => {
@@ -39,7 +54,7 @@ const CombineForm = ( {selectedMachineType, selectedFarm} ) => {
         addNewMachine({
             variables: {
                 name,
-                grainTankCap: parseInt(grainTankCap),
+                grainTankCapacity: parseInt(grainTankCapacity),
                 maxHp: parseInt(maxHp),
                 maxCutWidth: parseFloat(maxCutWidth),
                 unloadingSpeed: parseInt(unloadingSpeed),
@@ -49,13 +64,38 @@ const CombineForm = ( {selectedMachineType, selectedFarm} ) => {
         });
     }
 
+    const handleUpdateClick = () => {
+        let fieldErrors = {};
+        
+        checkEmptyFields(fieldErrors);
+
+        if(Object.keys(fieldErrors).length > 0) {
+            setErrors(fieldErrors);
+
+            return;
+        }
+
+        updateMachine({
+            variables: {
+                name,
+                grainTankCapacity: parseInt(grainTankCapacity),
+                maxHp: parseInt(maxHp),
+                maxCutWidth: parseFloat(maxCutWidth),
+                unloadingSpeed: parseInt(unloadingSpeed),
+                machineTypeId: parseInt(selectedMachineType.id),
+                farmId: parseInt(machine.farmId),
+                id: parseInt(machine.id)
+            }
+        });
+    }
+
     const checkEmptyFields = (fieldErrors) => {
         if(!name) {
             fieldErrors.name = "Please add name"
         }
 
-        if(!grainTankCap) {
-            fieldErrors.grainTankCap = "Please add Grain capacity"
+        if(!grainTankCapacity) {
+            fieldErrors.grainTankCapacity = "Please add Grain capacity"
         }
 
         if(!maxHp) {
@@ -82,10 +122,10 @@ const CombineForm = ( {selectedMachineType, selectedFarm} ) => {
                     onChange={(e) => setName(e.target.value)}
                 />
                 <Form.Control
-                    className={`form__input-field ${errors.grainTankCap && 'is-invalid'}`}
+                    className={`form__input-field ${errors.grainTankCapacity && 'is-invalid'}`}
                     placeholder="Grain Tank Capacity"
                     type="text"
-                    value={grainTankCap}
+                    value={grainTankCapacity}
                     onChange={(e) => setGrainTankCap(e.target.value)}
                 />
                 <Form.Control
@@ -113,7 +153,11 @@ const CombineForm = ( {selectedMachineType, selectedFarm} ) => {
 
             <Form.Group>
                 <div>
-                    <Button variant="primary" onClick={() => handleSaveClick()}>Save Machine</Button>
+                    {!machine ?
+                        <Button variant="primary" onClick={() => handleSaveClick()}>Save Machine</Button>
+                        :
+                        <Button variant="primary" onClick={() => handleUpdateClick()}>Update Machine</Button>
+                    }
                 </div>
             </Form.Group>
         </>

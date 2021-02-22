@@ -57,3 +57,17 @@ export const GET_FARMS_BY_USER_ID = gql`
         }
     }
 `;
+
+export const UPDATE_FARM = gql`
+    mutation updateFarm(
+        $id: Int!
+        $name: String!
+    ) {
+        updateFarm(
+            id: $id
+            name: $name
+        ) {
+            name
+        }
+    }
+`;

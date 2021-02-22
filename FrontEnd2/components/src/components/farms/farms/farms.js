@@ -15,6 +15,7 @@ import { DELETE_FARM_BY_ID } from '../../constants/gqlFarmConstants';
 
 const DELETE_SUCCESS = 'Farm deleted Successfully !';
 const DELETE_ERROR = 'There was an error deleting this farm !';
+const NO_RIGHTS_ERROR = "You don't have right to use this option !";
 
 const Farms = (props) => {
     const { location: { state }} = props;
@@ -22,7 +23,7 @@ const Farms = (props) => {
 
     useQuery(GET_FARMS_BY_USER_COUNTRY_ID, {
         variables: {
-            userId: parseInt(state.user.id),
+            userId: state.user.roleName === "employee" ? parseInt(state.user.userId) : parseInt(state.user.id),
             countryId: parseInt(state.country.id)
         },
         onCompleted(data) {
@@ -42,6 +43,12 @@ const Farms = (props) => {
     })
 
     const handleDeleteFarm = (elem) => {
+        if(state.user.roleName === "employee") {
+            loadToastError(NO_RIGHTS_ERROR);
+            
+            return;
+        }
+
         const id = parseInt(elem.id);
 
         deleteFarm({
@@ -65,6 +72,7 @@ const Farms = (props) => {
                                 <th>Farm name</th>
                                 <th>Country name</th>
                                 <th>Delete</th>
+                                <th>Edit</th>
                             </tr>
                         </thead>
 
@@ -74,6 +82,7 @@ const Farms = (props) => {
                                     <FarmRows 
                                         key={idx} 
                                         elem={elem} 
+                                        user={state.user}
                                         handleDeleteFarm={handleDeleteFarm}
                                     />
                                 )

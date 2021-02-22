@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql, useLazyQuery, useQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Switch } from 'react-router-dom';
 
@@ -15,15 +15,45 @@ import { Col } from 'react-bootstrap';
 const GET_LOGGED_USER = gql`
     query getLoggedUser {
         getLoggedUser {
-            id firstName lastName email role {
-                name
-            }
+            id firstName lastName email roleId userId
+        }
+    }
+`;
+
+const GET_ROLE_BY_ID = gql`
+    query getRoleById(
+        $id: ID!
+    ) {
+        getRoleById(
+            id: $id
+        ) {
+            id name
         }
     }
 `;
 
 const AppContainer = () => {
-    const { loading, data } = useQuery(GET_LOGGED_USER, {
+    const [user, setUser] = useState();
+    const [role, setRole] = useState();
+
+    const [getRole] = useLazyQuery(GET_ROLE_BY_ID, {
+        onCompleted(data) {
+            setRole(data.getRoleById)
+
+        },
+        fetchPolicy: "network-only"
+    })
+
+    useQuery(GET_LOGGED_USER, {
+        onCompleted(data) {
+            setUser(data.getLoggedUser);
+
+            getRole({
+                variables: {
+                    id: data.getLoggedUser.roleId
+                }
+            })
+        },
         fetchPolicy: 'network-only',
     });
 
@@ -33,18 +63,15 @@ const AppContainer = () => {
         const routes = getRoutes();
 		setRoutes(routes);
     }, [])
-    
-    if(loading) {
+
+    if(!user || !role) {
         return (
             <div>
                 <p>Loading data !</p>
             </div>
         )
     }
-    
-    const user = data.getLoggedUser;
-    const roleName = user.role.name;
-    
+
     return (
         <div>
             <ToastContainer
@@ -65,7 +92,7 @@ const AppContainer = () => {
                 <BrowserRouter>
                     <div className="main">
                         <LeftSideBar
-                            isAdmin={roleName === 'admin' ? true : false}
+                            role={role}
                             user={user}
                         />
 

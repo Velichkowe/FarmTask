@@ -18,6 +18,10 @@ const routes = [
     {
         route: '/showFarmMachines',
         componentName: 'showFarmMachines'
+    },
+    {
+        route: '/showEmployees',
+        componentName: 'showEmployees'
     }
 ]
 

@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
 
-import { Button, Form } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 import { loadToastSuccess } from '../../loadToast/loadToast';
-import { ADD_NEW_FARM } from '../../constants/gqlFarmConstants';
+import { UPDATE_FARM } from '../../constants/gqlFarmConstants';
 
 const FARM_SAVE_SUCCESS = 'Farm saved successfully !';
 
-const CreateFarm = (props) => {
+const UpdateFarm = (props) => {
     const { location: { state }} = props;
-    const [farmName, setFarmName] = useState('');
+    const [farmName, setFarmName] = useState(state.name);
 
-    const [createFarm] = useMutation(ADD_NEW_FARM, {
+    const [updateFarm] = useMutation(UPDATE_FARM, {
         onCompleted(data) {
             loadToastSuccess(FARM_SAVE_SUCCESS);
         }
@@ -21,11 +19,10 @@ const CreateFarm = (props) => {
 
     const saveFarm = (e) => {
         e.preventDefault();
-        createFarm({
+        updateFarm({
             variables: {
-                name: farmName,
-                userId: parseInt(state.user.id),
-                countryId: parseInt(state.country.id)
+                id: parseInt(state.id),
+                name: farmName
             }
         });
     }
@@ -33,7 +30,7 @@ const CreateFarm = (props) => {
     return (
         <>
             <div className="form__create-farm">
-                <h2>Create Farm Form</h2>
+                <h2>Update Farm Form</h2>
 
                 <Form onSubmit={saveFarm}>
                     <Form.Group>
@@ -47,11 +44,11 @@ const CreateFarm = (props) => {
                     </Form.Group>
 
                     <div>
-                        <Button 
+                        <Button
                             variant="primary"
                             type="submit"
                         >
-                            Save Farm
+                            Update Farm
                         </Button>
                     </div>
                 </Form>
@@ -60,4 +57,4 @@ const CreateFarm = (props) => {
     )
 }
 
-export default CreateFarm;
+export default UpdateFarm;

@@ -1,6 +1,22 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { loadToastError } from '../../loadToast/loadToast';
 
-const FieldRows = ({ elem, handleDeleteRow }) => {
+const NO_RIGHTS_ERROR = "You don't have right to use this option !";
+
+const FieldRows = ({ elem, handleDeleteRow, user }) => {
+    const history = useHistory();
+    
+    const handleUpdateField = (elem) => {
+        if(user.roleName === 'employee') {
+            loadToastError(NO_RIGHTS_ERROR);
+
+            return;
+        }
+        
+        history.push('/updateField', elem);
+    }
+
     return (
         <tr>
             <td>{elem.name}</td>
@@ -14,6 +30,17 @@ const FieldRows = ({ elem, handleDeleteRow }) => {
                         onClick={(e) => handleDeleteRow(elem)}
                     >
                         x
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div className="btn__item">
+                    <div 
+                        className="btn__update"
+                        id={elem.id} 
+                        onClick={(e) => handleUpdateField(elem)}
+                    >
+                        Edit
                     </div>
                 </div>
             </td>

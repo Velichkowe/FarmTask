@@ -40,3 +40,8 @@
 .field__action-btn {
     margin-right: 15px;
 }
+
+.btn__update:hover {
+    cursor: pointer;
+    color: #5ccdfa;
+}

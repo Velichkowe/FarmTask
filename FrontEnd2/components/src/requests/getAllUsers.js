@@ -3,25 +3,11 @@ import { gql, useQuery } from '@apollo/client';
 const GET_ALL_USERS = gql`
     query users {
         users {
-            id firstName lastName userId
+            id firstName lastName
             role {
                 name
             }
             isApproved
-            # farms {
-            #     name
-            # }
-            # userRegions {
-            #     region {
-            #         id name
-            #     }
-            # }
-
-            # userCountries {
-            #     country {
-            #         id name
-            #     }
-            # }
         }
     }
 `;

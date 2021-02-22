@@ -31,6 +31,7 @@ const ShowAllUsers = () => {
     });
 
     const [users, setUsers] = useState();
+    const [filteredUsers, setFilteredUsers] = useState();
     const [filterText, setFilterText] = useState(ALL);
 
     if(!data) {
@@ -39,37 +40,42 @@ const ShowAllUsers = () => {
 
     if(!users) {
         setUsers(data.users);
+        setFilteredUsers(data.users);
 
         return null;
     }
     
     const filterByAll = () => {
-        setUsers(data.users);
+        setFilteredUsers(users);
         setFilterText(ALL);
     }
 
     const filterByApproved = () => {
-        setUsers(data.users.filter(elem => elem.isApproved == true));
+        setFilteredUsers(users.filter(elem => elem.isApproved == true));
         setFilterText(APPROVED);
     }
     
     const filterByNotApproved = () => {
-        setUsers(data.users.filter(elem => elem.isApproved == false));
+        setFilteredUsers(users.filter(elem => elem.isApproved == false));
         setFilterText(NOT_APPROVED);
     }
 
     const updateApproved = (user) => {
         let newUsers = users.map((elem) => { return { ...elem } });
+        const newFilteredUsers = filteredUsers.map((elem) => { return { ...elem } });
         
-        newUsers.find(elem => elem.userId === user.userId).isApproved = !user.isApproved;
+        newUsers.find(elem => elem.id === user.id).isApproved = !user.isApproved;
+        newFilteredUsers.find(elem => elem.id === user.id).isApproved = !user.isApproved;
+
         updateUser({
             variables: {
-                userId: user.userId,
+                id: parseInt(user.id),
                 isApproved: user.isApproved ? 0 : 1
             }
         });
 
         setUsers(newUsers);
+        setFilteredUsers(newFilteredUsers);
     }
 
     return (
@@ -88,7 +94,7 @@ const ShowAllUsers = () => {
                         </thead>
 
                         <tbody>
-                            {users.map((elem, idx) => <UserRows key={idx} elem={elem} updateApproved={updateApproved} />)}
+                            {filteredUsers.map((elem, idx) => <UserRows key={idx} elem={elem} updateApproved={updateApproved} />)}
                         </tbody>
                     </Table>
 

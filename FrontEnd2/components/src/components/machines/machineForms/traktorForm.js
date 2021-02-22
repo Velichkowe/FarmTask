@@ -4,10 +4,14 @@ import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { loadToastError, loadToastSuccess } from '../../loadToast/loadToast';
 import { CREATE_NEW_MACHINE_TRAKTOR } from '../../constants/gqlMachineConstants';
+import { UPDATE_MACHINE_TRAKTOR } from '../../constants/gqlMachineConstants';
 const ADD_NEW_MACHINE_ERROR = 'There was an error adding this machine !';
 const ADD_NEW_MACHINE_SUCCESS = 'Machine is added successfully !';
+const UPDATE_MACHINE_ERROR = 'There was an error updating this machine !';
+const UPDATE_MACHINE_SUCCESS = 'Machine is updated successfully !';
 
-const TraktorForm = ( {selectedMachineType, selectedFarm} ) => {
+const TraktorForm = (props)  => {
+    const { selectedMachineType, selectedFarm, machine } = props;
     const [addNewMachine] = useMutation(CREATE_NEW_MACHINE_TRAKTOR, {
         onCompleted(data) {
             if(!data) {
@@ -18,11 +22,21 @@ const TraktorForm = ( {selectedMachineType, selectedFarm} ) => {
         }
     });
 
-    const [name, setName] = useState('');
-    const [maxLiftCap, setMaxLiftCap] = useState('');
-    const [maxHp, setMaxHp] = useState('');
-    const [transmission, setTransmission] = useState('');
-    const [engine, setEngine] = useState('');
+    const [updateMachine] = useMutation(UPDATE_MACHINE_TRAKTOR, {
+        onCompleted(data) {
+            if(!data.updateMachine) {
+                loadToastError(UPDATE_MACHINE_ERROR);
+            } else {
+                loadToastSuccess(UPDATE_MACHINE_SUCCESS);
+            }
+        }
+    });
+    
+    const [name, setName] = useState(machine ? machine.name : '');
+    const [maxLiftCapacity, setMaxLiftCapacity] = useState(machine.maxLiftCapacity ? machine.maxLiftCapacity : '');
+    const [maxHp, setMaxHp] = useState(machine.maxHp ? machine.maxHp : '');
+    const [transmission, setTransmission] = useState(machine.transmission ? machine.transmission : '');
+    const [engine, setEngine] = useState(machine.engine ? machine.engine : '');
     const [errors, setErrors] = useState({});
 
     const handleSaveClick = () => {
@@ -39,7 +53,7 @@ const TraktorForm = ( {selectedMachineType, selectedFarm} ) => {
         addNewMachine({
             variables: {
                 name,
-                maxLiftCap: parseInt(maxLiftCap),
+                maxLiftCapacity: parseInt(maxLiftCapacity),
                 maxHp: parseInt(maxHp),
                 transmission: transmission,
                 engine: engine,
@@ -54,8 +68,8 @@ const TraktorForm = ( {selectedMachineType, selectedFarm} ) => {
             fieldErrors.name = "Please add name"
         }
 
-        if(!maxLiftCap) {
-            fieldErrors.maxLiftCap = "Please add Max lift capacity"
+        if(!maxLiftCapacity) {
+            fieldErrors.maxLiftCapacity = "Please add Max lift capacity"
         }
 
         if(!maxHp) {
@@ -71,6 +85,31 @@ const TraktorForm = ( {selectedMachineType, selectedFarm} ) => {
         }
     }
 
+    const handleUpdateClick = () => {
+        let fieldErrors = {};
+        
+        checkEmptyFields(fieldErrors);
+
+        if(Object.keys(fieldErrors).length > 0) {
+            setErrors(fieldErrors);
+
+            return;
+        }
+
+        updateMachine({
+            variables: {
+                id: parseInt(machine.id),
+                name,
+                maxLiftCapacity: parseInt(maxLiftCapacity),
+                maxHp: parseInt(maxHp),
+                transmission: transmission,
+                engine: engine,
+                machineTypeId: parseInt(selectedMachineType.id),
+                farmId: parseInt(machine.farmId)
+            }
+        });
+    }
+
     return (
         <>
             <Form.Group>
@@ -83,11 +122,11 @@ const TraktorForm = ( {selectedMachineType, selectedFarm} ) => {
                 />
 
                 <Form.Control
-                    className={`form__input-field ${errors.maxLiftCap && 'is-invalid'}`}
+                    className={`form__input-field ${errors.maxLiftCapacity && 'is-invalid'}`}
                     placeholder="Max lift capacity"
                     type="text"
-                    value={maxLiftCap}
-                    onChange={(e) => setMaxLiftCap(e.target.value)}
+                    value={maxLiftCapacity}
+                    onChange={(e) => setMaxLiftCapacity(e.target.value)}
                 />
 
                 <Form.Control
@@ -117,7 +156,11 @@ const TraktorForm = ( {selectedMachineType, selectedFarm} ) => {
 
             <Form.Group>
                 <div>
-                    <Button variant="primary" onClick={() => handleSaveClick()}>Save Machine</Button>
+                    {!machine ?
+                        <Button variant="primary" onClick={() => handleSaveClick()}>Save Machine</Button>
+                        :
+                        <Button variant="primary" onClick={() => handleUpdateClick()}>Update Machine</Button>
+                    }
                 </div>
             </Form.Group>
         </>
