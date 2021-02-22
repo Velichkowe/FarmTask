@@ -1,60 +1,65 @@
 import React, { useState, useEffect } from 'react';
-import System from './helpers/system/system';
-import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { setContext } from '@apollo/client/link/context';
 
-import { Routes } from './helpers/routeManager/routeManager';
 import { getRoutes } from './helpers/routes/routes';
+import { AUTH_TOKEN } from './components/constants/constants';
 
 import './App.css';
-
-const Header = React.lazy(() => import("components/header"));
+import  { useDynamicScript } from './helpers/federationHelper/federationHelper';
+import Login from './components/loginPage/loginPage';
+import Register from './components/registerPage/registerPage';
+import AppContainer from './components/appContainer/appContainer';
 
 const App = () => {
-	const [system, setSystem] = useState(undefined);
 	const [apolloClient, setApolloClient] = useState(undefined);
 	const [routes, setRoutes] = useState();
-	console.log('asdsad')
-	
+	const [token, setToken] = useState(localStorage.getItem(AUTH_TOKEN));
+	const { failed } = useDynamicScript();
+
 	useEffect(() => {
+		const httpLink = createHttpLink({
+			uri: 'http://localhost:4000/graphql',
+		})
+
+		const authLink = setContext((_, { headers }) => {
+			const storedToken = localStorage.getItem(AUTH_TOKEN);
+
+			return {
+				headers: {
+					...headers,
+					authorization: storedToken ? `Bearer ${storedToken}` : '',
+				}
+			}
+		})
+
 		const client = new ApolloClient({
-			uri: 'http://localhost:4000/',
+			link: authLink.concat(httpLink),
 			cache: new InMemoryCache()
 		});
 
 		const routes = getRoutes();
-		console.log(routes);
 		setRoutes(routes);
-
 		setApolloClient(client);
 	}, [])
 
-	// const setApp2 = () => {
-	// 	setSystem({
-	// 		url: "http://localhost:3002/remoteEntry.js",
-	// 		scope: "components",
-	// 		module: "./showUsers"
-	// 	});
-	// }
-
-	if(!apolloClient) {
+	if(!apolloClient || failed) {
 		return null;
 	}
 
 	return (
 		<ApolloProvider client={apolloClient}>
 			<div>
-				<React.Suspense fallback="Header is loading">
-					<Header />
-				</React.Suspense>
-
-				{/* <button onClick={setApp2}>Load app 1 widget</button> */}
-
-				{/* <div>
-					<System system={system}/>
-				</div> */}
 				<BrowserRouter>
-					<Routes routes={routes}/>
+					{!token ? <Redirect to="/login" /> : <Redirect to="/appContainer" />}
+
+					<Switch>
+						<Route exact path='/' component={Login}/>
+						<Route exact path='/login' component={Login} />
+						<Route exact path='/register' component={Register} />
+						<Route exact path='/appContainer' component={AppContainer} />
+					</Switch>
 				</BrowserRouter>
 			</div>
 		</ApolloProvider>
@@ -62,4 +67,3 @@ const App = () => {
 }
 
 export default App;
-

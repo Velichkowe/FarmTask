@@ -14,7 +14,7 @@
     },
     "include": [
         "src/**/*"
-, "../farm-platform/src/apolloProvider"    ],
+, "../farm-platform/src/apolloProvider", "../platform/src/components/register", "../platform/src/components/header"    ],
     "exclude": [
         "node_modules",
         "dist",

@@ -1,0 +1,32 @@
+.table__farm {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.table__background {
+    background: #d3e3fc;
+}
+
+.btn__delete {
+    font-weight: 700;
+    color: rgb(160, 160, 160);
+    border: 2px solid;
+    border-radius: 50%;
+    padding: 0 8px 2px 8px;
+}
+
+.btn__delete-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.btn__delete:hover {
+    cursor: pointer;
+    color: #fa5c5c;
+}
+
+.component_head h2 {
+    margin-bottom: 20px;
+    font-size: 26px;
+}

@@ -2,11 +2,11 @@ const path = require('path');
 const  HtmlWebpackPlugin  =  require('html-webpack-plugin');
 const { ModuleFederationPlugin } = require('webpack').container;
 const { dependencies } = require('./package.json');
-// /lib/container/ModuleFederationPlugin
 
 module.exports = {
 	mode: 'development',
     devServer: {
+        historyApiFallback: true,
         contentBase: path.join(__dirname, "dist"),
         port: 3001,
     },
@@ -57,14 +57,14 @@ module.exports = {
         extensions: ['*', '.js', '.jsx'],
     },
 	plugins: [
-		new  HtmlWebpackPlugin({ 
-            template: "./public/index.html",
+		new HtmlWebpackPlugin({ 
+            template: 'public/index.html',
+            fileName: './index.html',
             favicon: path.resolve(__dirname, 'public/favicon.ico'),
-            // manifest: path.resolve(__dirname, 'public/manifest.json')
+            manifest: path.resolve(__dirname, 'public/manifest.json')
         }),
-		new  ModuleFederationPlugin({
+		new ModuleFederationPlugin({
 			name: "platform",
-			// filename: "remoteEntry.js",
 			remotes: { 
             //     farm: "farm@http://localhost:3002/remoteEntry.js",
                 components: "components@http://localhost:3002/remoteEntry.js"
@@ -82,6 +82,7 @@ module.exports = {
                     requiredVersion: dependencies['react-dom']
                 },
                 '@apollo/client': {
+                    // eager: true,
                     singleton: true,
                     requiredVersion: dependencies['@apollo/client']
                 }

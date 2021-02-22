@@ -1,0 +1,71 @@
+.user__region-country h1 {
+    margin-bottom: 15px;
+}
+
+.list-group__item {
+    display: flex;
+    max-height: 362px;
+    width: 80%;
+    margin-right: 15px;
+}
+
+.list-group__item p {
+    padding: 0;
+    margin: 0;
+    margin: auto;
+}
+
+.list-group__item:hover {
+    cursor: pointer;
+    background: rgba(153, 206, 255, 0.39);
+    transition: background .3s;
+}
+
+.list__group {
+    max-height: 198px;
+    overflow-y: auto;
+}
+
+.list__group--flex {
+    display: flex;
+}
+
+.btn__delete {
+    font-weight: 700;
+    color: rgb(160, 160, 160);
+    border: 2px solid;
+    border-radius: 50%;
+    padding: 0 8px 2px 8px;
+}
+
+.btn__delete-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.btn__delete:hover {
+    cursor: pointer;
+    color: #fa5c5c;
+}
+
+.user__region-country {
+    width: 100%;
+}
+
+.region__name {
+    width: 100%;
+}
+
+.user__regions-country {
+    display: flex;
+}
+
+.user__assigned-regions-country {
+    width: 70%;
+    margin-right: 15px;
+}
+
+.user__assign-region-country {
+    width: 30%;
+}

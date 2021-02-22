@@ -1,0 +1,10 @@
+.main {
+    display: flex;
+    height: 100%;
+}
+
+.app__container--margin {
+    padding-left: 0 !important;
+    margin-left: 20px;
+    height: 100vh;
+}

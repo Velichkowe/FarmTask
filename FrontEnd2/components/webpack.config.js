@@ -50,28 +50,36 @@ module.exports = {
     },
 	plugins: [
 		new  HtmlWebpackPlugin({ 
-			template: "./public/index.html" 
+			template: 'public/index.html',
+            filename: './index.html',
+            inject: true,
+            favicon: path.resolve(__dirname, 'public/favicon.ico')
 		}),
 		new  ModuleFederationPlugin({
 			name: "components",
 			filename: "remoteEntry.js",
 			exposes: {
-				"./showUsers": "./src/components/users/showAllUsers",
-                "./header": "./src/components/header/header"
+				"./showUsers": "./src/components/users/showAllUsers/showAllUsers",
+                "./showFarms": "./src/components/farms/showFarms/showFarms",
+                "./showFarmFields": "./src/components/fields/showFarmFields/showFarmFields",
+                "./showFarmMachines": "./src/components/machines/showFarmMachines/showFarmMachines"
+                // "./loginPage": "./src/components/loginPage/loginPage",
+                // "./registerPage": "./src/components/registerPage/registerPage",
 			},
 			shared: {
                 ...dependencies,
                 'react': { 
                     singleton: true,
                     eager: true,
-                    // requiredVersion: dependencies.react
+                    requiredVersion: dependencies.react
                 },
                 'react-dom': {
                     eager: true,
                     singleton: true,
-                    // requiredVersion: dependencies['react-dom']
+                    requiredVersion: dependencies['react-dom']
                 },
                 '@apollo/client': {
+                    // eager: true,
                     singleton: true,
                     requiredVersion: dependencies['@apollo/client']
                 }

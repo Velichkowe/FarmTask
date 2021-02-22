@@ -1,0 +1,37 @@
+.login__form {
+    max-width: 40%;
+    margin: auto;
+    text-align: center;
+    margin-top: 100px;
+    padding: 20px 0 50px 0;
+    border: 2px solid rgba(116, 116, 116, 0.411);
+    border-radius: 10px;
+}
+
+.form__group {
+    margin-bottom: 20px;
+}
+
+.form__control-input {
+    background-color: #e7e7ec;
+    width: 80%;
+    margin: auto;
+}
+
+.form__actions {
+    margin-bottom: 20px;
+}
+
+.register__link {
+    color: rgb(43, 46, 248);
+}
+
+.register__link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+.error-message {
+    color: rgb(153, 57, 57);
+}

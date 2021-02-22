@@ -1,0 +1,30 @@
+.sidebar {
+    border-right: 4px solid #79797979;
+}
+
+.sidebar__menu {
+    padding-left: 0;
+}
+
+.sidebar__menu li {
+    list-style: none;
+    margin: 20px 15px 20px 0;
+}
+
+.side-menu-button {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.button__show-all {
+    border: none;
+    border-radius: 10px;
+}
+
+.button__show-all:hover {
+    box-shadow: 0px 0px 15px #42626e;
+    color: #fff;
+    transition: box-shadow .2s;
+    transition: color .2s;
+    transition: border .2s;
+}

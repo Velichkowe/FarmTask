@@ -1,0 +1,42 @@
+.picker {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.picker__label p {
+    margin: 0 15px 0 0;
+}
+
+.picker__label {
+    width: 37%;
+    font-size: 19px;
+}
+
+.button__choice {
+    margin-right: 18px;
+}
+
+.form__create-farm {
+    margin-top: 20px;
+    box-shadow: 4px 3px 11px -4px #000;
+    margin-right: 20px;
+    width: 33%;
+    padding: 10px 15px;
+    max-height: 230px;
+}
+
+.region_country-picker {
+    margin-top: 20px;
+    /* box-shadow: 4px 3px 11px -4px #000; */
+    margin-right: 20px;
+    padding: 10px 15px;
+    max-height: 230px;
+}
+
+.field__component {
+    display: block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    box-shadow: 4px 3px 11px -4px #000;
+}

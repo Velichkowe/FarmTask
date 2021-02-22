@@ -1,11 +1,19 @@
 .header {
     margin: auto;
-    background: #727272;
+    background: #77a6f7;
 }
 
-.header__inner {
+.margin--auto {
     margin: auto;
     padding: 0;
+}
+
+.header__welcome-greeting {
+    width: 50%;
+}
+
+.header__welcome-greeting p {
+    margin: 0;
 }
 
 nav {
@@ -21,7 +29,7 @@ nav {
     margin: 0;
 }
 
-.nav__admin--right {
+.nav--right {
     justify-content: flex-end;
 }
 
@@ -31,6 +39,7 @@ nav {
 
 .nav-bar {
     display: flex;
+    align-items: center;
 }
 
 .nav__options li {
@@ -40,4 +49,15 @@ nav {
 .nav__options a {
     color: #000;
     cursor: pointer;
+}
+
+.logout__btn {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px #000;
+}
+
+.logout__btn:hover {
+    background: rgb(153, 153, 153);
+    transition: background .2s;
 }

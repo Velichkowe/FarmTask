@@ -1,29 +1,26 @@
 import React, { useEffect, lazy, useState } from 'react';
 import { loadComponent } from '../helpers/federationHelper/federationHelper';
+import 'regenerator-runtime/runtime';
 
 const SCOPE = 'components';
 
 const BasicComponent = ({ componentName }) => {
-    const [component, setComponent] = useState({});
+    const [component, setComponent] = useState(null);
 
     useEffect(() => {
-        // const fetchedComponents = [];
-
-        // routes.forEach(element => {
-            const Component = lazy(loadComponent(SCOPE, `./${componentName}`));
-            // fetchedComponents.push({
-            //     component: Component,
-            //     // route: element.route
-            // });
-        // });
+        const Component = lazy(loadComponent(SCOPE, `./${componentName}`));
 
         setComponent(Component);
-    }, [])
+    }, [componentName])
 
     return (
-        <React.Suspense>
-            {React.createElement(component)}
-        </React.Suspense>
+        <>
+            {component && (
+                <React.Suspense fallback='Loading component..'>
+                    {React.createElement(component)}
+                </React.Suspense>
+            )}
+        </>
     )
 }
 

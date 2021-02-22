@@ -1,0 +1,26 @@
+.table-background {
+    background: '#d3e3fc';
+}
+
+.users {
+    width: 90%;
+    margin-top: 20px;
+    display: flex;
+}
+
+.table-field {
+    display: flex;
+}
+
+.filter__options {
+    margin-left: 20px;
+    display: flex;
+}
+
+.toggle__button {
+    min-width: 150px;
+}
+
+.dropdown__menu {
+    margin-right: 20px;
+}

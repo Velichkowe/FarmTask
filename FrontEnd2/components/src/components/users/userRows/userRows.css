@@ -1,0 +1,24 @@
+.button__approve {
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    border: 4px solid #fff;
+}
+
+.button__approve:hover {
+    border: 4px solid #77a6f7;
+    transition: background .3s;
+    transition: border .3s;
+}
+
+.button__checked {
+    background: rgba(0, 252, 34, 0.664);
+}
+
+.button__unchecked {
+    background: rgba(252, 0, 0, 0.623);
+}
+
+.table__user-row {
+    cursor: pointer;
+}

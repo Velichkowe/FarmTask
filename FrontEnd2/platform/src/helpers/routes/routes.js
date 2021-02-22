@@ -5,7 +5,19 @@ import BasicComponent from '../../components/basicComponents';
 const routes = [
     {
         route: '/showUsers',
-        componentName: 'showAllUsers'
+        componentName: 'showUsers'
+    },
+    {
+        route: '/showFarms',
+        componentName: 'showFarms'
+    },
+    {
+        route: '/showFarmFields',
+        componentName: 'showFarmFields'
+    },
+    {
+        route: '/showFarmMachines',
+        componentName: 'showFarmMachines'
     }
 ]
 
@@ -13,13 +25,11 @@ export const getRoutes = () => {
     const results = [];
 
     routes.forEach((element, index) => {
-        // const RouteComponent = Route;
-        
         results.push(
             <Route
                 exact
-                path={`/${element.route}`}
-                key={element.route + index}
+                path={element.route}
+                key={element.route}
                 render={() => 
                     React.createElement(BasicComponent, {
                         componentName: element.componentName
@@ -28,7 +38,6 @@ export const getRoutes = () => {
             />
         );
     });
-    
 
     return results;
 }

@@ -1,0 +1,42 @@
+.register__form {
+    max-width: 40%;
+    margin: auto;
+    text-align: center;
+    margin-top: 100px;
+    padding: 20px 0 50px 0;
+    border: 2px solid rgba(116, 116, 116, 0.411);
+    border-radius: 10px;
+}
+
+.form__group {
+    margin-bottom: 30px;
+    display: flex;
+}
+
+.form__control-input {
+    background-color: #e7e7ec;
+    width: 80%;
+    margin: auto;
+}
+
+.form__actions {
+    margin-bottom: 20px;
+}
+
+.login__link {
+    color: rgb(43, 46, 248);
+}
+
+.login_link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.error {
+    margin-right: 22px;
+    margin-top: 13px;
+    border: 1px solid #000;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+}
