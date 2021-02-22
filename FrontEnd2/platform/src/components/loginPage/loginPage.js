@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { gql, useMutation } from '@apollo/client';
-
-import { AUTH_TOKEN } from '../constants/constants';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Col, Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import './loginPage.css';
+
+import { AUTH_TOKEN } from '../constants/constants';
 
 const LOGIN_USER = gql`
      mutation login(
@@ -44,12 +44,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     let history = useHistory();
 
-    // if(!history) {
-    //     return <p>Loading Login Page</p>
-    // }
-
     const loginUser = (e) => {
-        // console.log(123)
         e.preventDefault();
         login({
             variables: {
@@ -60,8 +55,6 @@ const Login = () => {
     }
 
     return (
-        // <div>This is a login page</div>
-
         <div className="container">
             <Col sm={12} md={12} lg={12}>
                 <div className="login__form">

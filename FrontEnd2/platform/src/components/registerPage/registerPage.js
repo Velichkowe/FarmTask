@@ -31,18 +31,12 @@ const REGISTER = gql`
 
 const Register = () => {
     const [register, { loading }] = useMutation(REGISTER, {
-        onError(err) {
-            // setErrors(err.graphQLErrors[0].extensions.errors);
-            // console.log('+++', JSON.parse(err));
-        },
         onCompleted({ register }) {
             if(register.errors) {
-                console.log(register)
                 const errors = JSON.parse(register.errors);
                 setErrors(errors);
             }
             else {
-                console.log('++++++++', register.user.firstName)
                 history.push('/login');
             }
         }
@@ -58,7 +52,6 @@ const Register = () => {
 
     const registerUser = (e) => {
         e.preventDefault()
-        // console.log('register pressed')
         register({
             variables: {
                 firstName,
