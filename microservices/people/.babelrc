@@ -18,7 +18,8 @@
                     "#server": "./src/server",
                     "#graphql": "./src/graphql",
                     "#models": "./src/models",
-                    "#service": "./src/service"
+                    "#service": "./src/service",
+                    "#types": "./src/types"
                 }
             }
         ],

@@ -6,7 +6,8 @@
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
         "paths": {
-            "#server/*": ["src/server/*"]
+            "#server/*": ["src/server/*"],
+            "#types/*": ["src/types/*"]
         }
     },
     "include": [

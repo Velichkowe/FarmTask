@@ -11,7 +11,6 @@ const userTypeDefinitions = gql`
         employees: [Employee]!
         role: Role!
         isApproved: Int!
-        # userId: String!
     }
 
     type LoginPayload {

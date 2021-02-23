@@ -1,4 +1,21 @@
-// import { v4 as uuid } from 'uuid';
+//#region Types definition
+/** @typedef {import('../types/user').User} User */
+// /** @typedef {import('#types/schema').GetManyArgs} GetManyArgs */
+// /** @typedef {import('#types/schema').GetOneArgs} GetOneArgs */
+// /** @typedef {import('#types/schema').UpsertArgs<Country>} CountryUpsertArgs */
+// /** @typedef {import('#types/schema').DeleteArgs} DeleteArgs */
+// /** @typedef {import("#types/schema").Context} Context */
+// /** @typedef {import("#types/schema").ReturnMany<Country>} ReturnManyCountries */
+// /** @typedef {import("#types/schema").DeleteResult} DeleteResult */
+//#endregion
+
+/**
+ * A number, or a string containing a number.
+ *
+ * @typedef {object} GetOneArgs
+ * @property {string} id Unique identifier passed by client
+ */
+
 import jwt from 'jsonwebtoken';
 import { checkFields, checkErrors, checkPasswords, validateEmail } from '../helpers/fieldValidation/fieldValidation';
 const bcrypt = require('bcrypt');
@@ -6,6 +23,13 @@ const SALT_ROUNDS = 0;
 
 const UserResolvers = {
     Query: {
+        /**
+         * Get all entities
+         *
+         * @param {object} _ The return value of the resolver for this field's parent (i.e., the previous resolver in the resolver chain).
+         * @param {GetOneArgs} args An object that contains all GraphQL arguments provided for this field.
+         * @param {Context} context An object shared across all resolvers that are executing for a particular operation.
+         */
         user: async (
             _,
             { id },
