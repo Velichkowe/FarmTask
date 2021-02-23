@@ -13,8 +13,8 @@
 }
 
 .form__control-input {
-    background-color: #e7e7ec;
-    width: 80%;
+    background-color: #e7e7ec !important;
+    width: 80% !important;
     margin: auto;
 }
 
@@ -24,6 +24,8 @@
 
 .register__link {
     color: rgb(43, 46, 248);
+    border: none;
+    background: none;
 }
 
 .register__link:hover {

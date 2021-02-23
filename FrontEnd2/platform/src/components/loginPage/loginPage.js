@@ -24,9 +24,6 @@ const LOGIN_USER = gql`
 
 const Login = () => {
     const [login, { loading }] = useMutation(LOGIN_USER, {
-        onError(err) {
-            console.log('--------', err)
-        },
         onCompleted({ login }) {
             if(login.errors) {
                 const errors = JSON.parse(login.errors);
@@ -53,7 +50,7 @@ const Login = () => {
             }
         })
     }
-
+    console.log(errors)
     return (
         <div className="container">
             <Col sm={12} md={12} lg={12}>
@@ -73,8 +70,7 @@ const Login = () => {
                                 <Form.Control
                                     id="email"
                                     className={`
-                                        form__control-input
-                                        ${errors.email && 'is-invalid'}    
+                                        form__control-input ${errors.email && 'is-invalid'}    
                                     `}
                                     type="text"
                                     placeholder="Email"

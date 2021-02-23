@@ -27,6 +27,7 @@ const ShowFarmFields = (props) => {
     const [getFarmsByUserId] = useLazyQuery(GET_FARMS_BY_USER_ID, {
         onCompleted(data) {
             setFarms(data.getFarmsByUserId);
+
         },
         fetchPolicy: "network-only"
     });

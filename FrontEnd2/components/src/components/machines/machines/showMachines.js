@@ -19,7 +19,6 @@ const ShowMachines = (props) => {
         },
         onCompleted(data) {
             setMachines(data.machinesByFarmId)
-            console.log(data.machinesByFarmId)
         }
         ,fetchPolicy: "network-only"
     });

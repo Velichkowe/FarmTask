@@ -25,9 +25,11 @@
 
 .login__link {
     color: rgb(43, 46, 248);
+    border: none;
+    background: none;
 }
 
-.login_link:hover {
+.login__link:hover {
     text-decoration: underline;
     cursor: pointer;
 }

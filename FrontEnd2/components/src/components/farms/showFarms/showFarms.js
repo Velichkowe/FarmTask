@@ -94,7 +94,7 @@ const ShowFarms = () => {
         else {
             userId = parseInt(user.id);
         }
-
+        console.log('userId', userId)
         getAllUserCountries({
             variables: {
                 userId,

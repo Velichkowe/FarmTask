@@ -1,6 +1,9 @@
 import React from 'react'
 import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import { loadToastError } from '../../loadToast/loadToast';
+
+const NO_SELECTED_EMPLOYEE_ERROR = 'Please select an employee first';
 
 const Buttons = ({ user, selectedEmployee }) => {
     const history = useHistory();
@@ -10,6 +13,12 @@ const Buttons = ({ user, selectedEmployee }) => {
     }
 
     const handleShowEmployeeInfo = () => {
+        if(selectedEmployee.id === -1) {
+            loadToastError(NO_SELECTED_EMPLOYEE_ERROR);
+
+            return;
+        }
+
         history.push('/showEmployeeInfo', selectedEmployee);
     }
 

@@ -123,7 +123,7 @@ const TraktorForm = (props)  => {
 
                 <Form.Control
                     className={`form__input-field ${errors.maxLiftCapacity && 'is-invalid'}`}
-                    placeholder="Max lift capacity"
+                    placeholder="Max lift capacity - kg"
                     type="text"
                     value={maxLiftCapacity}
                     onChange={(e) => setMaxLiftCapacity(e.target.value)}
@@ -156,7 +156,7 @@ const TraktorForm = (props)  => {
 
             <Form.Group>
                 <div>
-                    {!machine ?
+                    {Object.keys(machine).length === 0 ?
                         <Button variant="primary" onClick={() => handleSaveClick()}>Save Machine</Button>
                         :
                         <Button variant="primary" onClick={() => handleUpdateClick()}>Update Machine</Button>

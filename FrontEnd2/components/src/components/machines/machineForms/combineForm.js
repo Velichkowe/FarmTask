@@ -12,7 +12,6 @@ const UPDATE_MACHINE_SUCCESS = 'Machine is updated successfully !';
 
 const CombineForm = (props) => {
     const { selectedMachineType, selectedFarm, machine } = props;
-
     const [addNewMachine] = useMutation(CREATE_NEW_MACHINE_COMBINE, {
         onCompleted(data) {
             if(!data.addMachine) {
@@ -33,7 +32,7 @@ const CombineForm = (props) => {
         }
     });
 
-    const [name, setName] = useState(machine ? machine.name : '');
+    const [name, setName] = useState(machine.name ? machine.name : '');
     const [grainTankCapacity, setGrainTankCap] = useState(machine.grainTankCapacity ? machine.grainTankCapacity : '');
     const [maxHp, setMaxHp] = useState(machine.maxHp ? machine.maxHp : '');
     const [maxCutWidth, setMaxCutWidth] = useState(machine.maxCutWidth ? machine.maxCutWidth : '');
@@ -123,29 +122,29 @@ const CombineForm = (props) => {
                 />
                 <Form.Control
                     className={`form__input-field ${errors.grainTankCapacity && 'is-invalid'}`}
-                    placeholder="Grain Tank Capacity"
-                    type="text"
+                    placeholder="Grain Tank Capacity - litre"
+                    type="number"
                     value={grainTankCapacity}
                     onChange={(e) => setGrainTankCap(e.target.value)}
                 />
                 <Form.Control
                     className={`form__input-field ${errors.maxHp && 'is-invalid'}`}
                     placeholder="Max HP"
-                    type="text"
+                    type="number"
                     value={maxHp}
                     onChange={(e) => setMaxHp(e.target.value)}
                 />
                 <Form.Control
                     className={`form__input-field ${errors.maxCutWidth && 'is-invalid'}`}
-                    placeholder="Max Cutting Width"
-                    type="text"
+                    placeholder="Max Cutting Width - meter"
+                    type="number"
                     value={maxCutWidth}
                     onChange={(e) => setMaxCutWidth(e.target.value)}
                 />
                 <Form.Control
                     className={`form__input-field ${errors.unloadingSpeed && 'is-invalid'}`}
-                    placeholder="Unloading Speed"
-                    type="text"
+                    placeholder="Unloading Speed - litre/second"
+                    type="number"
                     value={unloadingSpeed}
                     onChange={(e) => setUnloadingSpeed(e.target.value)}
                 />
@@ -153,7 +152,7 @@ const CombineForm = (props) => {
 
             <Form.Group>
                 <div>
-                    {!machine ?
+                    {Object.keys(machine).length === 0 ?
                         <Button variant="primary" onClick={() => handleSaveClick()}>Save Machine</Button>
                         :
                         <Button variant="primary" onClick={() => handleUpdateClick()}>Update Machine</Button>

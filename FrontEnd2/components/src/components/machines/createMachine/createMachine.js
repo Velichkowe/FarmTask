@@ -75,6 +75,7 @@ const CreateMachine = (props) => {
                                 className="form__style"
                                 selectedMachineType={selectedMachineType}
                                 selectedFarm={state}
+                                machine={{}}
                             /> : null
                         }
                     </Form.Group>

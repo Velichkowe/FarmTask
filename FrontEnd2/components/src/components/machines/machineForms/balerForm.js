@@ -116,7 +116,7 @@ const BalerForm = (props) => {
 
                 <Form.Control
                     className={`form__input-field ${errors.pickUpWidth && 'is-invalid'}`}
-                    placeholder="Pick up width"
+                    placeholder="Pick up width - mm"
                     type="text"
                     value={pickUpWidth}
                     onChange={(e) => setPickUpWidth(e.target.value)}
@@ -132,7 +132,7 @@ const BalerForm = (props) => {
 
                 <Form.Control
                     className={`form__input-field ${errors.plungerSpeed && 'is-invalid'}`}
-                    placeholder="Plunger speed"
+                    placeholder="Plunger speed - strokes/min"
                     type="text"
                     value={plungerSpeed}
                     onChange={(e) => setPlungerSpeed(e.target.value)}
@@ -141,7 +141,7 @@ const BalerForm = (props) => {
 
             <Form.Group>
                 <div>
-                    {!machine ?
+                    {Object.keys(machine).length === 0 ?
                         <Button variant="primary" onClick={() => handleSaveClick()}>Save Machine</Button>
                         :
                         <Button variant="primary" onClick={() => handleUpdateClick()}>Update Machine</Button>
