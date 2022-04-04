@@ -125,7 +125,8 @@ const UserResolvers = {
                         throw (errors.email = 'No such user!');
                     }
 
-                    let result = bcrypt.compareSync(password, employee.password);
+                    // let result = bcrypt.compareSync(password, employee.password);
+                    let result = employee.password === password;
 
                     if (!result) {
                         throw (errors.password = 'Wrong password!');
@@ -139,12 +140,12 @@ const UserResolvers = {
 
                     return { token, errors: null };
                 } else {
-                    console.log('user');
                     if (!user.isApproved) {
                         throw (errors.notApproved = 'Your account is not approved !');
                     }
 
-                    let result = bcrypt.compareSync(password, user.password);
+                    // let result = bcrypt.compareSync(password, user.password);
+                    let result = user.password === password;
 
                     if (!result) {
                         throw (errors.password = 'Wrong password!');
