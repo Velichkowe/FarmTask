@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     }
     Field.init(
         {
+            id: {
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+                allowNull: false
+            },
             name: {
                 type: DataTypes.STRING(50),
                 allowNull: false
@@ -35,7 +40,10 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: 'Field',
-            tableName: 'field'
+            tableName: 'Field',
+            createdAt: 'created',
+            updatedAt: 'modified',
+            deletedAt: 'deleted'
         }
     );
 

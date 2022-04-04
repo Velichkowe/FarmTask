@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     }
     MachineType.init(
         {
+            id: {
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+                allowNull: false
+            },
             name: {
                 type: DataTypes.STRING,
                 allowNull: false
@@ -23,7 +28,10 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: 'MachineType',
-            tableName: 'machine_type'
+            tableName: 'MachineType',
+            createdAt: 'created',
+            updatedAt: 'modified',
+            deletedAt: 'deleted'
         }
     );
 

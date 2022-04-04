@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     }
     Soil.init(
         {
+            id: {
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+                allowNull: false
+            },
             name: {
                 type: DataTypes.STRING(50),
                 allowNull: false
@@ -23,7 +28,10 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: 'Soil',
-            tableName: 'soil'
+            tableName: 'Soil',
+            createdAt: 'created',
+            updatedAt: 'modified',
+            deletedAt: 'deleted'
         }
     );
 

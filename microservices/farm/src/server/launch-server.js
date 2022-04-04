@@ -31,4 +31,4 @@ const apolloServer = new ApolloServer({
 });
 apolloServer.applyMiddleware({ app, path: '/graphql' });
 
-app.listen(port, () => console.log(`People service is ready at port: ${port}`));
+app.listen(port, () => console.log(`Farm service is ready at port: ${port}`));
